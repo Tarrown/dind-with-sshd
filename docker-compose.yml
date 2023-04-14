@@ -1,0 +1,25 @@
+version: "3"
+services:
+    host:
+        container_name: "host-container"
+        build:
+            context: ./host
+            dockerfile: Dockerfile_host
+        ports:
+        # for sshd 
+        - "2022:22"
+        # for guest http
+        - "1080:80"
+        volumes:
+            - type: bind
+              source: "./guest"
+              target: "/work/guest/mnt"
+        privileged: true
+    batch:
+        container_name: "batch-container"
+        build:
+            context: ./batch
+            dockerfile: Dockerfile_batch
+        tty: true
+        links:
+        - host

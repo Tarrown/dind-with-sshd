@@ -1,0 +1,18 @@
+FROM docker:23.0.3-dind
+
+RUN apk update && apk add openrc openssh vim
+RUN ssh-keygen -A
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+RUN mkdir -p /var/run/sshd
+RUN mkdir -p /run/openrc
+RUN touch /run/openrc/softlevel
+RUN adduser -h /home/testuser -D testuser
+RUN echo 'testuser:password' | chpasswd
+USER testuser
+RUN mkdir -m 700 ~/.ssh
+RUN touch ~/.ssh/authorized_keys
+RUN chmod 600 ~/.ssh/authorized_keys
+USER root
+
+CMD ["sh", "-c", "rc-status && rc-service sshd restart && /usr/local/bin/dockerd-entrypoint.sh"]

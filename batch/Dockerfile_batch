@@ -1,0 +1,8 @@
+FROM ubuntu:23.04
+
+RUN apt update && apt install -y openssh-client vim
+RUN useradd -m -s /bin/bash testuser
+RUN echo 'testuser:password' | chpasswd
+USER testuser
+RUN mkdir -m 700 ~/.ssh
+RUN ssh-keygen -q -f /home/testuser/.ssh/id_rsa -N ''

@@ -1,0 +1,5 @@
+FROM alpine:latest
+
+RUN apk update && apk add netcat-openbsd
+
+CMD ["/bin/sh","work/simple_server.sh"]
