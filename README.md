@@ -2,6 +2,8 @@
 ## Overview
 Docker in Docker(dind) container with sshd
 
+<img width=50% src=./images/overview.png>
+
 ## Usase
 build and run containers
 ```bash
