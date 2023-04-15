@@ -15,4 +15,5 @@ RUN touch ~/.ssh/authorized_keys
 RUN chmod 600 ~/.ssh/authorized_keys
 USER root
 
+# For some reason, if you want to start sshd service, you need to run 'rc-status' first.
 CMD ["sh", "-c", "rc-status && rc-service sshd restart && /usr/local/bin/dockerd-entrypoint.sh"]
